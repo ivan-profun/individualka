@@ -1,6 +1,7 @@
 import telebot
 from telebot import types
 
+
 bot = telebot.TeleBot("5241900918:AAFNEti3E8vEC6MVwfbP9a4yxL87yY9Zemc")
 
 
@@ -68,6 +69,8 @@ def fun1(message):
     elif (message.text == 'Выше радуги'):
         whatGroup = 6
 
+    whatTime = 0  # выбор времени
+
     if (whatGroup != 0):
         markupTime = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
         group1 = types.KeyboardButton('Понедельник: с 15:00 до 20:00')
@@ -79,71 +82,47 @@ def fun1(message):
         markupTime.add(group1, group2, group3, group4, group5, group6)
         bot.send_message(message.chat.id, "В какой день на этой неделе вы хотите сдать костюм?", reply_markup=markupTime)
 
-        whatTime = 0  # выбор времени
-
-        if message.text == 'Понедельник: с 15:00 до 20:00':
-            whatTime = 1
-
-        elif message.text == 'Вторник: с 15:00 до 20:00':
-            whatTime = 2
-
-        elif message.text == 'Среда: с 15:00 до 20:00':
-            whatTime = 3
-
-        elif message.text == 'Четверг: с 15:00 до 20:00':
-            whatTime = 4
-
-        elif message.text == 'Пятница: с 15:00 до 20:00':
-            whatTime = 5
-
-        elif message.text == 'Суббота: с 15:00 до 19:00':
-            whatTime = 6
-
-        if (whatTime != 0):
-            bot.send_message(message.chat.id, 'Всё отмечено!')
-
-            if (whatTime == 1):
-                infoTime[0][0] += 1
-
-            elif (whatTime == 2):
-                infoTime[0][1] += 1
-
-            elif (whatTime == 3):
-                infoTime[0][2] += 1
-
-            elif (whatTime == 4):
-                infoTime[0][3] += 1
-
-            elif (whatTime == 5):
-                infoTime[0][4] += 1
-
-            elif (whatTime == 6):
-                infoTime[0][5] += 1
-
-            #if (whatTime != 0):
-            markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-            surrender = types.KeyboardButton('Сдать костюм')
-            markup.add(surrender)
-            bot.send_message(message.chat.id, 'Хотите ещё сдать костюм?')
-            bot.send_message(message.chat.id, fun1(message))
-
-            if (message.text == 'Сдать костюм'):
-                markup3 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-                surrender = types.KeyboardButton('Начать с начала!')
-                markup3.add(surrender)
-                bot.send_message(message.chat.id, 'Хотите начать с начала?', reply_markup=markup3)
-                if (message.text == 'Начать с начала!'):
-                    bot.send_message(message.chat.id, menu())
-
-                bot.send_message(message.chat.id, 'Чтоб вернуться нажмите на /start')
 
 
+    if message.text == 'Понедельник: с 15:00 до 20:00':
+        whatTime = 1
 
+    elif message.text == 'Вторник: с 15:00 до 20:00':
+        whatTime = 2
 
+    elif message.text == 'Среда: с 15:00 до 20:00':
+        whatTime = 3
 
+    elif message.text == 'Четверг: с 15:00 до 20:00':
+        whatTime = 4
 
+    elif message.text == 'Пятница: с 15:00 до 20:00':
+        whatTime = 5
 
+    elif message.text == 'Суббота: с 15:00 до 19:00':
+        whatTime = 6
 
+    if (whatTime != 0):
+        bot.send_message(message.chat.id, 'Всё отмечено!')
+
+        infoTime[whatGroup - 1][whatTime - 1] += 1
+
+    if (message.text == 'Сдать костюм.'):
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+        surrender = types.KeyboardButton('Сдать костюм.')
+        markup.add(surrender)
+        bot.send_message(message.chat.id, 'Хотите ещё сдать костюм?')
+        bot.send_message(message.chat.id, fun1(message))
+
+        if message.text == 'Сдать костюм':
+            markup3 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+            surrender = types.KeyboardButton('Начать с начала!')
+            markup3.add(surrender)
+            bot.send_message(message.chat.id, 'Хотите начать с начала?', reply_markup=markup3)
+            if message.text == 'Начать с начала!':
+                bot.send_message(message.chat.id, menu())
+
+            bot.send_message(message.chat.id, 'Чтоб вернуться нажмите на /start')
 
 
 
